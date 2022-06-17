@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Sh4n/Downloads/FYP/app/src/main/res/layout/activity_lesson.xml" value="0.35989583333333336" />
+        <entry key="..\:/Users/Sh4n/Downloads/FYP/app/src/main/res/layout/activity_login.xml" value="0.35989583333333336" />
+        <entry key="..\:/Users/Sh4n/Downloads/FYP/app/src/main/res/layout/activity_reset_password.xml" value="0.35989583333333336" />
+        <entry key="app/src/main/res/drawable/circle.xml" value="0.2675213675213675" />
+        <entry key="app/src/main/res/layout/activity_arcamera.xml" value="0.2510548523206751" />
+        <entry key="app/src/main/res/layout/activity_lesson.xml" value="0.2423076923076923" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25427350427350426" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.25427350427350426" />
+        <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.25427350427350426" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
