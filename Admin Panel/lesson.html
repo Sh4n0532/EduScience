@@ -60,7 +60,8 @@
                                     <h3 class="card-title">List of Lessons</h3>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="insertLesson.html" class="btn btn-sm bg-success float-right"><i class="fa-solid fa-plus"></i>Insert</a>
+                                    <a href="insertLesson.html" class="btn btn-sm bg-success float-right"><i
+                                            class="fa-solid fa-plus"></i>Insert</a>
                                 </div>
                             </div>
                         </div>
@@ -141,8 +142,14 @@
 
         function addDataToTable(key, value) {
             tableBody.innerHTML = "" //clear the table
-            for (var i = 0; i < key.length; i++) {
-                addTableRow(key[i], value[i].imgUrl, value[i].lessonName);
+            if (key.length == 0) {
+                var content = '<tr><td colspan=2>No data found</td></tr>'
+                $('#tableBody').append(content);
+            }
+            else {
+                for (var i = 0; i < key.length; i++) {
+                    addTableRow(key[i], value[i].imgUrl, value[i].lessonName);
+                }
             }
         }
 
