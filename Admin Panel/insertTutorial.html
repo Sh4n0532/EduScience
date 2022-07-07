@@ -108,9 +108,15 @@
                         <a href="lesson.html" class="btn bg-secondary">Cancel</a>
                     </div>
                 </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-12 text-center">
+                        <a href="#" id="addQuiz" class="link-info">Proceed to add quiz <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </div> 
 
     <!-- jQuery -->
     <script type="text/javascript" src="plugins/jquery/jquery.min.js"></script>
@@ -149,18 +155,22 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getDatabase(app);
+        const storage = getStorage();
 
         var tutImage = [];
         var arModel = [];
         var reader = new FileReader();
-        var tutId = '';
+
+        var url = window.location.href;
+        var params = (new URL(url)).searchParams;
+        var lessonId = params.get('id');
 
         // show selected image file name
         $('#tutImage').on('change', function (e) {
             tutImage = e.target.files;
             $('#imgName').html(tutImage[0].name);
             reader.readAsDataURL(tutImage[0]);
-        })
+        });
 
         // preview the selected image
         reader.onload = function () {
@@ -178,7 +188,7 @@
         $('#tutModel').on('change', function (e) {
             arModel = e.target.files;
             $('#modelName').html(arModel[0].name);
-        })
+        });
 
         // form validation
         $('#saveTut').on('click', function () {
@@ -188,51 +198,27 @@
                 return;
             }
             $('#alert').hide();
-            upload();
-        })
+
+            uploadImg();
+            // uploadModel();
+        });
 
         // upload files to firebase storage
-
         var tutImgUrl = '';
         var tutModelUrl = '';
 
-        async function upload() {
-            var image = tutImage[0];
-            var imgExt = getFileExt(tutImage[0]);
-            var imgName = String(Date.now()) + imgExt;
+        async function uploadImg() {
+            return new Promise((resolve, reject) => {
+                var image = tutImage[0];
+                var imgExt = getFileExt(tutImage[0]);
+                var imgName = String(Date.now()) + imgExt;
 
-            const imgData = {
-                contentType: image.type
-            }
-
-            const storage = getStorage();
-            var storageRef = sRef(storage, "/Tutorial/" + imgName);
-            var uploadTask = uploadBytesResumable(storageRef, image, imgData);
-
-            uploadTask.on("state-changed", (snapshot) => {
-                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            },
-                (error) => {
-                    $('#alert').html('Create lesson failed. Please try again.');
-                    $('#alert').removeAttr('hidden');
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-                        tutImgUrl = downloadUrl;
-                        console.log(tutImgUrl);
-                    })
-                });
-
-            var model = arModel[0];
-            if (model != null) {
-                var modelExt = getFileExt(arModel[0]);
-                var modelName = String(Date.now()) + modelExt;
-                const modelData = {
-                    contentType: model.type
+                const imgData = {
+                    contentType: image.type
                 }
 
-                var storageRef = sRef(storage, "/Tutorial/" + modelName);
-                var uploadTask = uploadBytesResumable(storageRef, model, modelData);
+                var storageRef = sRef(storage, "/Tutorial/" + imgName);
+                var uploadTask = uploadBytesResumable(storageRef, image, imgData);
 
                 uploadTask.on("state-changed", (snapshot) => {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -243,46 +229,75 @@
                     },
                     () => {
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-                            tutModelUrl = downloadUrl;
-                            console.log(tutModelUrl);
+                            tutImgUrl = downloadUrl;
+                            console.log(tutImgUrl);
+                            uploadModel();
                         })
                     });
-            }
+            });
         }
 
-        // // save download url to database
-        // const dbref = ref(db);
-        // const id = push(dbref);
-        // tutId = id.key;
+        async function uploadModel() {
+            return new Promise((resolve, reject) => {
+                var model = arModel[0];
+                if (model != null) {
+                    var modelExt = getFileExt(arModel[0]);
+                    var modelName = String(Date.now()) + modelExt;
+                    const modelData = {
+                        contentType: model.type
+                    }
 
-        // function saveUrl(url) {
-        //     return new Promise(function (resolve, reject) {
-        //         set(ref(db, "/Tutorial/" + id.key), {
-        //             tutContent: $('#tutContent').val(),
-        //             imgUrl: url
-        //         })
-        //             .catch((error) => {
-        //                 $('#alert').html('Create tutorial failed. Please try again.');
-        //                 $('#alert').removeAttr('hidden');
-        //             })
-        //             .then(() => {
-        //                 console.log("Tutorial created.");
-        //             });
-        //     });
-        // }
+                    var storageRef = sRef(storage, "/Tutorial/" + modelName);
+                    var uploadTask = uploadBytesResumable(storageRef, model, modelData);
 
-        // function updateUrl(url) {
-        //     update(ref(db, "/Tutorial/" + id.key), {
-        //         modelUrl: url
-        //     })
-        //         .catch((error) => {
-        //             $('#alert').html('Create tutorial failed. Please try again.');
-        //             $('#alert').removeAttr('hidden');
-        //         })
-        //         .then(() => {
-        //             console.log("Tutorial updated.");
-        //         });
-        // }
+                    uploadTask.on("state-changed", (snapshot) => {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    },
+                        (error) => {
+                            $('#alert').html('Create lesson failed. Please try again.');
+                            $('#alert').removeAttr('hidden');
+                        },
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+                                tutModelUrl = downloadUrl;
+                                console.log(tutModelUrl);
+                                saveUrl();
+                            })
+                        });
+                }
+            });
+        }
+
+        async function saveUrl() {
+            return new Promise((resolve, reject) => {
+                const dbref = ref(db);
+                const id = push(dbref);
+                var tutId = id.key;
+
+                set(ref(db, "/Tutorial/" + id.key), {
+                    tutContent: $('#tutContent').val(),
+                    imgUrl: tutImgUrl,
+                    modelUrl: tutModelUrl,
+                    lessonId: lessonId
+                })
+                    .catch((error) => {
+                        $('#alert').html('Create tutorial failed. Please try again.');
+                        $('#alert').removeAttr('hidden');
+                    })
+                    .then(() => {
+                        swal({
+                            title: "Tutorial Created",
+                            icon: "success",
+                            buttons: false,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload();
+                        });
+                    });
+            });
+        }
+
+        $('#addQuiz').attr('href', "insertQuiz.html?id=" + lessonId);
 
     </script>
 
