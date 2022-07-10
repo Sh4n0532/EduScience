@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+
+    <title>EduScience - Lesson</title>
+
+    <style>
+        #center-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding-left:50px; padding-right:50px">
+        <a class="navbar-brand" href="index.html">EduScience Admin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="lesson.html">Lesson</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">User</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="center-page">
+        <div class="card" style="width: 700px; margin-top: 20px;">
+            <div class="card-header bg-primary">
+                <h3 class="card-title">Add Quiz</h3>
+            </div>
+
+            <div class="card-body">
+                <div hidden class="alert alert-danger" role="alert" id="alert"></div>
+                <div class="form-group">
+                    <p class="mt-1 ml-2">Question Statement &nbsp; : &nbsp;</p>
+                    <textarea type="text" class="form-control" id="question" rows="4" cols="30"
+                        placeholder="Question Statement" autocomplete="off"></textarea>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <p class="mt-1 ml-2">Option 1 &nbsp; : &nbsp;</p>
+                        <textarea type="text" class="form-control" name="option" id="opt1" rows="2" cols="15"
+                            placeholder="Option 1" autocomplete="off"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mt-1 ml-2">Option 2 &nbsp; : &nbsp;</p>
+                        <textarea type="text" class="form-control" name="option" id="opt2" rows="2" cols="15"
+                            placeholder="Option 2" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <p class="mt-1 ml-2">Option 3 &nbsp; : &nbsp;</p>
+                        <textarea type="text" class="form-control" name="option" id="opt3" rows="2" cols="30"
+                            placeholder="Option 3" autocomplete="off"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mt-1 ml-2">Option 4 &nbsp; : &nbsp;</p>
+                        <textarea type="text" class="form-control" name="option" id="opt4" rows="2" cols="30"
+                            placeholder="Option 4" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p>Select Answer &nbsp; : &nbsp;</p>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="answer" value="0">
+                        <label class="form-check-label">Option 1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="answer" value="1">
+                        <label class="form-check-label">Option 2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="answer" value="2">
+                        <label class="form-check-label">Option 3</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="answer" value="3">
+                        <label class="form-check-label">Option 4</label>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <p class="mt-1 ml-2">Quiz Image &nbsp; : &nbsp;</p>
+                    <span>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="image" accept="image/png, image/jpeg"
+                                    style="width:550px">
+                                <label class="custom-file-label" id="imgName">Choose image (Optional)</label>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+
+                <div class="form-group row">
+                    <img class="mt-1 ml-2 mx-auto" style="width: 400px;" alt="No image" id="imgPreview">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-success" id="addQuiz">Add Quiz</button>
+                        <a href="lesson.html" class="btn bg-secondary">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- AdminLTE App -->
+    <script type="text/javascript" src="dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script type="text/javascript" src="dist/js/demo.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-analytics.js";
+        import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-storage.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBZ30G81z-vR2G3V8CPZzBYDeCTwSTtMdU",
+            authDomain: "eduscience-9560a.firebaseapp.com",
+            databaseURL: "https://eduscience-9560a-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "eduscience-9560a",
+            storageBucket: "eduscience-9560a.appspot.com",
+            messagingSenderId: "155564812426",
+            appId: "1:155564812426:web:53f4681e0494eef5952573",
+            measurementId: "G-BMJL6YDVF6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase(app);
+        const storage = getStorage(app);
+
+        var image = [];
+        var reader = new FileReader();
+        var answer = -1;
+
+        var url = window.location.href;
+        var params = (new URL(url)).searchParams;
+        var lessonId = params.get('id');
+
+        // show selected image file name
+        $('#image').on('change', function (e) {
+            image = e.target.files;
+            $('#imgName').html(image[0].name);
+            reader.readAsDataURL(image[0]);
+        });
+
+        // preview the selected image
+        reader.onload = function () {
+            $('#imgPreview').attr('src', reader.result);
+        }
+
+        // get image file extension
+        function getFileExt(file) {
+            var temp = file.name.split('.');
+            var ext = temp.slice((temp.length - 1), (temp.length));
+            return '.' + ext[0];
+        }
+
+        // form validation
+        $('#addQuiz').on('click', function () {
+            if ($('#question').val() == "" || $('#opt1').val() == "" || $('#opt2').val() == "" || $('#opt3').val() == "" || $('#opt4').val() == "") {
+                $('#alert').html('Please fill in the required fields!');
+                $('#alert').removeAttr('hidden');
+                return;
+            }
+
+            var options = document.getElementsByName("answer");
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].checked) {
+                    answer = parseInt(options[i].value);
+                }
+            }
+
+            if (answer == -1) {
+                $('#alert').html('Please select the answer for this question.');
+                $('#alert').removeAttr('hidden');
+                return;
+            }
+            $('#alert').hide();
+            saveQuiz();
+        });
+
+        async function saveQuiz() {
+            return new Promise((resolve, reject) => {
+                if (image.length == 0) { // no image, save to database
+                    const dbref = ref(db);
+                    const id = push(dbref);
+                    const quizId = id.key; // quiz code
+
+                    set(ref(db, "/Quiz/" + id.key), {
+                        question: $('#question').val(),
+                        lessonId: lessonId
+                    })
+                        .catch((error) => {
+                            $('#alert').html('Create tutorial failed. Please try again.');
+                            $('#alert').removeAttr('hidden');
+                        })
+                        .then(() => {
+                            saveOptions(quizId); // create options
+                        });
+                }
+                else { // have image, store to storage then database
+                    var img = image[0];
+                    var imgExt = getFileExt(image[0]);
+                    var imgName = String(Date.now()) + imgExt;
+                    const imgData = {
+                        contentType: img.type
+                    }
+
+                    var storageRef = sRef(storage, "/Quiz/" + imgName);
+                    var uploadTask = uploadBytesResumable(storageRef, img, imgData);
+
+                    uploadTask.on("state-changed", (snapshot) => {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    },
+                        (error) => {
+                            $('#alert').html('Create lesson failed. Please try again.');
+                            $('#alert').removeAttr('hidden');
+                        },
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+                                const dbref = ref(db);
+                                const id = push(dbref);
+                                const quizId = id.key; // quiz code
+
+                                set(ref(db, "/Quiz/" + id.key), {
+                                    question: $('#question').val(),
+                                    imgUrl: downloadUrl,
+                                    lessonId: lessonId
+                                })
+                                    .catch((error) => {
+                                        $('#alert').html('Create tutorial failed. Please try again.');
+                                        $('#alert').removeAttr('hidden');
+                                    })
+                                    .then(() => {
+                                        saveOptions(quizId); // create options
+                                    });
+                            })
+                        });
+                }
+            });
+        }
+
+        async function saveOptions(quizId) {
+            return new Promise((resolve, reject) => {
+                var options = document.getElementsByName("option");
+                for (var i = 0; i < options.length; i++) {
+                    const dbref = ref(db);
+                    const id = push(dbref);
+                    var optionId = id.key;
+
+                    set(ref(db, "/Option/" + id.key), {
+                        option: options[i].value,
+                        quizId: quizId
+                    })
+                        .catch((error) => {
+                            $('#alert').html('Create tutorial failed. Please try again.');
+                            $('#alert').removeAttr('hidden');
+                        });
+
+                    if (i == answer) {
+                        saveQuizAns(quizId, optionId);
+                    }
+                }
+            })
+        }
+
+        async function saveQuizAns(quizId, optionId) {
+            return new Promise((resolve, reject) => {
+                const dbref = ref(db);
+                const id = push(dbref);
+                var quizAnsId = id.key;
+
+                set(ref(db, "/QuizAns/" + id.key), {
+                    quizId: quizId,
+                    optionId: optionId
+                })
+                    .catch((error) => {
+                        $('#alert').html('Create tutorial failed. Please try again.');
+                        $('#alert').removeAttr('hidden');
+                    })
+                    .then(() => {
+                        location.reload();
+                    }) ;
+            })
+        }
+
+    </script>
+</body>
+
+</html>

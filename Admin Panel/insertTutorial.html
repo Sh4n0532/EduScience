@@ -23,7 +23,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 90vh;
             width: 100vw;
             margin: 0px;
         }
@@ -60,7 +59,7 @@
     </nav>
 
     <div id="center-page">
-        <div class="card">
+        <div class="card" style="margin-top: 20px;">
             <div class="card-header bg-primary">
                 <h3 class="card-title">Add Tutorial</h3>
             </div>
@@ -111,12 +110,13 @@
 
                 <div class="row mt-2">
                     <div class="col-md-12 text-center">
-                        <a href="#" id="addQuiz" class="link-info">Proceed to add quiz <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#" id="addQuiz" class="link-info">Proceed to add quiz <i
+                                class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <!-- jQuery -->
     <script type="text/javascript" src="plugins/jquery/jquery.min.js"></script>
@@ -160,6 +160,7 @@
         var tutImage = [];
         var arModel = [];
         var reader = new FileReader();
+        var imgUrl;
 
         var url = window.location.href;
         var params = (new URL(url)).searchParams;
@@ -192,27 +193,22 @@
 
         // form validation
         $('#saveTut').on('click', function () {
-            if ($('#tutContent').val() == "") {
-                $('#alert').html('Please fill in all the fields!');
+            if ($('#tutContent').val() == "" || tutImage.length == 0) {
+                $('#alert').html('Please fill in the required fields!');
                 $('#alert').removeAttr('hidden');
                 return;
             }
             $('#alert').hide();
-
             uploadImg();
-            // uploadModel();
         });
 
-        // upload files to firebase storage
-        var tutImgUrl = '';
-        var tutModelUrl = '';
+        $('#addQuiz').attr('href', "insertQuiz.html?id=" + lessonId);
 
         async function uploadImg() {
             return new Promise((resolve, reject) => {
                 var image = tutImage[0];
                 var imgExt = getFileExt(tutImage[0]);
                 var imgName = String(Date.now()) + imgExt;
-
                 const imgData = {
                     contentType: image.type
                 }
@@ -229,8 +225,8 @@
                     },
                     () => {
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-                            tutImgUrl = downloadUrl;
-                            console.log(tutImgUrl);
+                            imgUrl = downloadUrl;
+                            console.log(imgUrl);
                             uploadModel();
                         })
                     });
@@ -239,8 +235,32 @@
 
         async function uploadModel() {
             return new Promise((resolve, reject) => {
-                var model = arModel[0];
-                if (model != null) {
+                if (arModel.length == 0) { // no model, save url to database
+                    const dbref = ref(db);
+                    const id = push(dbref);
+                    const tutId = id.key;
+
+                    set(ref(db, "/Tutorial/" + id.key), {
+                        content: $('#tutContent').val(),
+                        imgUrl: imgUrl
+                    })
+                        .catch((error) => {
+                            $('#alert').html('Create tutorial failed. Please try again.');
+                            $('#alert').removeAttr('hidden');
+                        })
+                        .then(() => {
+                            swal({
+                                title: "Tutorial Created",
+                                icon: "success",
+                                buttons: false,
+                                timer: 1500
+                            }).then(() => {
+                                location.reload();
+                            });
+                        });
+                }
+                else { // have model, upload model then save url to database
+                    var model = arModel[0];
                     var modelExt = getFileExt(arModel[0]);
                     var modelName = String(Date.now()) + modelExt;
                     const modelData = {
@@ -259,45 +279,156 @@
                         },
                         () => {
                             getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-                                tutModelUrl = downloadUrl;
-                                console.log(tutModelUrl);
-                                saveUrl();
-                            })
+                                const dbref = ref(db);
+                                const id = push(dbref);
+                                const tutId = id.key;
+
+                                set(ref(db, "/Tutorial/" + id.key), {
+                                    content: $('#tutContent').val(),
+                                    imgUrl: imgUrl,
+                                    modelUrl: downloadUrl
+                                })
+                                    .catch((error) => {
+                                        $('#alert').html('Create tutorial failed. Please try again.');
+                                        $('#alert').removeAttr('hidden');
+                                    })
+                                    .then(() => {
+                                        swal({
+                                            title: "Tutorial Created",
+                                            icon: "success",
+                                            buttons: false,
+                                            timer: 1500
+                                        }).then(() => {
+                                            location.reload();
+                                        });
+                                    });
+                            });
                         });
                 }
             });
         }
 
-        async function saveUrl() {
-            return new Promise((resolve, reject) => {
-                const dbref = ref(db);
-                const id = push(dbref);
-                var tutId = id.key;
+        // upload files to firebase storage
+        // var tutImgUrl = '';
+        // var tutModelUrl = '';
 
-                set(ref(db, "/Tutorial/" + id.key), {
-                    tutContent: $('#tutContent').val(),
-                    imgUrl: tutImgUrl,
-                    modelUrl: tutModelUrl,
-                    lessonId: lessonId
-                })
-                    .catch((error) => {
-                        $('#alert').html('Create tutorial failed. Please try again.');
-                        $('#alert').removeAttr('hidden');
-                    })
-                    .then(() => {
-                        swal({
-                            title: "Tutorial Created",
-                            icon: "success",
-                            buttons: false,
-                            timer: 1500
-                        }).then(() => {
-                            location.reload();
-                        });
-                    });
-            });
-        }
+        // async function uploadImg() {
+        //     return new Promise((resolve, reject) => {
+        //         var image = tutImage[0];
+        //         var imgExt = getFileExt(tutImage[0]);
+        //         var imgName = String(Date.now()) + imgExt;
 
-        $('#addQuiz').attr('href', "insertQuiz.html?id=" + lessonId);
+        //         const imgData = {
+        //             contentType: image.type
+        //         }
+
+        //         var storageRef = sRef(storage, "/Tutorial/" + imgName);
+        //         var uploadTask = uploadBytesResumable(storageRef, image, imgData);
+
+        //         uploadTask.on("state-changed", (snapshot) => {
+        //             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //         },
+        //             (error) => {
+        //                 $('#alert').html('Create lesson failed. Please try again.');
+        //                 $('#alert').removeAttr('hidden');
+        //             },
+        //             () => {
+        //                 getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+        //                     tutImgUrl = downloadUrl;
+        //                     console.log(tutImgUrl);
+        //                     uploadModel();
+        //                 })
+        //             });
+        //     });
+        // }
+
+        // async function uploadModel() {
+        //     return new Promise((resolve, reject) => {
+        //         var model = arModel[0];
+        //         if (model != null) {
+        //             var modelExt = getFileExt(arModel[0]);
+        //             var modelName = String(Date.now()) + modelExt;
+        //             const modelData = {
+        //                 contentType: model.type
+        //             }
+
+        //             var storageRef = sRef(storage, "/Tutorial/" + modelName);
+        //             var uploadTask = uploadBytesResumable(storageRef, model, modelData);
+
+        //             uploadTask.on("state-changed", (snapshot) => {
+        //                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //             },
+        //                 (error) => {
+        //                     $('#alert').html('Create lesson failed. Please try again.');
+        //                     $('#alert').removeAttr('hidden');
+        //                 },
+        //                 () => {
+        //                     getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+        //                         tutModelUrl = downloadUrl;
+        //                         console.log(tutModelUrl);
+        //                         saveUrl();
+        //                     })
+        //                 });
+        //         }
+        //         else {
+        //             saveUrl();
+        //         }
+        //     });
+        // }
+
+        // async function saveUrl() {
+        //     return new Promise((resolve, reject) => {
+        //         const dbref = ref(db);
+        //         const id = push(dbref);
+        //         var tutId = id.key;
+
+        //         if (modelUrl == "") {
+        //             set(ref(db, "/Tutorial/" + id.key), {
+        //                 tutContent: $('#tutContent').val(),
+        //                 imgUrl: tutImgUrl,
+        //                 lessonId: lessonId
+        //             })
+        //                 .catch((error) => {
+        //                     $('#alert').html('Create tutorial failed. Please try again.');
+        //                     $('#alert').removeAttr('hidden');
+        //                 })
+        //                 .then(() => {
+        //                     swal({
+        //                         title: "Tutorial Created",
+        //                         icon: "success",
+        //                         buttons: false,
+        //                         timer: 1500
+        //                     }).then(() => {
+        //                         location.reload();
+        //                     });
+        //                 });
+        //         }
+        //         else {
+        //             set(ref(db, "/Tutorial/" + id.key), {
+        //                 tutContent: $('#tutContent').val(),
+        //                 imgUrl: tutImgUrl,
+        //                 modelUrl: tutModelUrl,
+        //                 lessonId: lessonId
+        //             })
+        //                 .catch((error) => {
+        //                     $('#alert').html('Create tutorial failed. Please try again.');
+        //                     $('#alert').removeAttr('hidden');
+        //                 })
+        //                 .then(() => {
+        //                     swal({
+        //                         title: "Tutorial Created",
+        //                         icon: "success",
+        //                         buttons: false,
+        //                         timer: 1500
+        //                     }).then(() => {
+        //                         location.reload();
+        //                     });
+        //                 });
+        //         }
+        //     });
+        // }
+
+        // $('#addQuiz').attr('href', "insertQuiz.html?id=" + lessonId);
 
     </script>
 
