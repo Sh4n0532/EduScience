@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".learning.QuizResultActivity"
+    android:padding="30dp">
+
+    <TextView
+        android:id="@+id/txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quiz Completed!"
+        android:fontFamily="@font/allerta"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"/>
+
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/imgGif"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/celebrate"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/txt1"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Result:"
+        android:layout_below="@+id/imgGif"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/allerta"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/txtQuizMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="2/10"
+        android:textColor="@color/black"
+        android:textSize="35dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/txtQuizMark"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/grey"
+            android:text="Back"
+            android:textColor="@color/white"
+            android:fontFamily="@font/allerta"
+            android:layout_marginRight="15dp"/>
+
+        <Button
+            android:id="@+id/btnLeaderboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/pink"
+            android:text="Leaderboard"
+            android:textColor="@color/white"
+            android:fontFamily="@font/allerta"
+            android:layout_marginLeft="15dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

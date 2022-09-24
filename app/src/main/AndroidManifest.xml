@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eduscience">
-    <!-- Following code gives permission to the user to access Camera -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- Following code is to check if the OpenGL version is 3.0 or higher -->
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature
         android:glEsVersion="0x00030000"
-        android:required="true" /> <!-- Following code indicates that this app requires Google Play Services for AR -->
+        android:required="true" />
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
@@ -18,22 +19,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EduScience">
         <activity
-            android:name=".LessonActivity"
+            android:name=".learning.QuizResultActivity"
             android:exported="false" />
         <activity
-            android:name=".ResetPasswordActivity"
+            android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".leaderboard.LeaderboardActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".discussion.DiscussionActivity"
             android:exported="false" />
         <activity
-            android:name=".ARCamera"
+            android:name=".learning.QuizActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".learning.TutorialActivity"
+            android:exported="false" />
+        <activity
+            android:name=".authentication.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".authentication.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".authentication.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".authentication.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +54,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".learning.LessonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ARCamera"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.ar.core"

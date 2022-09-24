@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/tutImg"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:src="@drawable/ic_launcher_background"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/txtTutContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tutorial content"
+        android:layout_below="@+id/tutImg"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:fontFamily="@font/allerta"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btnViewModel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/pink"
+        android:text="View Model"
+        android:textColor="@color/white"
+        android:fontFamily="@font/allerta"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/txtTutContent" />
+
+</RelativeLayout>

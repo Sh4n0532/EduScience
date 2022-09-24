@@ -4,22 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".authentication.LoginActivity"
+    tools:context=".authentication.SignupActivity"
     android:padding="30dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:fontFamily="@font/allerta"
-            android:textSize="30dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
+            android:text="Create Account"
             android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/allerta"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold"
             android:layout_marginTop="50dp"/>
 
         <LinearLayout
@@ -31,10 +32,39 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_email"
+                android:src="@drawable/ic_user"
                 android:layout_gravity="bottom"
                 android:layout_marginRight="3dp"
                 android:layout_marginBottom="7dp"
+                app:tint="@color/black"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:fontFamily="@font/allerta" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_email"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="5dp"
                 app:tint="@color/black"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -46,9 +76,10 @@
                     android:id="@+id/txtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/allerta"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:fontFamily="@font/allerta"/>
             </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -62,7 +93,7 @@
                 android:src="@drawable/ic_password"
                 android:layout_gravity="bottom"
                 android:layout_marginRight="3dp"
-                android:layout_marginBottom="7dp"
+                android:layout_marginBottom="5dp"
                 app:tint="@color/black"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -73,43 +104,56 @@
                 app:endIconTint="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtPassword"
+                    android:id="@+id/txtPassword1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/allerta"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:fontFamily="@font/allerta"/>
             </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/cbRememberMe"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Remember me"
-            android:fontFamily="@font/allerta"
-            android:buttonTint="@color/pink"
-            android:textColor="@color/pink"/>
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_password"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="5dp"
+                app:tint="@color/black"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtPassword2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:fontFamily="@font/allerta"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/pink"
-            android:text="Login"
+            android:text="Register"
             android:textColor="@color/white"
             android:fontFamily="@font/allerta"
             android:layout_marginTop="15dp"/>
 
-        <TextView
-            android:id="@+id/btnForgotPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password?"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/pink"
-            android:textAllCaps="false"
-            android:fontFamily="@font/allerta"
-            android:textSize="15dp"/>
     </LinearLayout>
 
     <ProgressBar
@@ -126,19 +170,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't Have An Account?"
+        android:text="Already Have An Account?"
         android:fontFamily="@font/allerta"
         android:textSize="12dp"
         android:textColor="@color/black"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp"
-        android:layout_alignTop="@id/btnSignup"/>
+        android:layout_alignTop="@id/btnLogin"/>
 
     <Button
-        android:id="@+id/btnSignup"
+        android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signup Now"
+        android:text="Login Now"
         android:textAllCaps="false"
         android:fontFamily="@font/allerta"
         android:textSize="12dp"

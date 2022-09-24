@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "155564812426",
-    "project_id": "eduscience-9560a",
-    "storage_bucket": "eduscience-9560a.appspot.com"
+    "project_number": "476540833515",
+    "firebase_url": "https://fyp-eduscience-51333-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "fyp-eduscience-51333",
+    "storage_bucket": "fyp-eduscience-51333.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:155564812426:android:7a6c804bbde96a5b952573",
+        "mobilesdk_app_id": "1:476540833515:android:a67a2e1d1adf584a1838ae",
         "android_client_info": {
           "package_name": "com.example.eduscience"
         }
       },
       "oauth_client": [
         {
-          "client_id": "155564812426-rb1ah11koifv1r3hes7ss4vcsbdrtpn8.apps.googleusercontent.com",
+          "client_id": "476540833515-5imgo4j1v6fae0q61mtfvjqq3f33517g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC8u1x6yTHPvVsTrMd7DYMKmFh8qqbtrYQ"
+          "current_key": "AIzaSyArhBsp8ecQRGXSXhjt4vkwv_Ta_oewIto"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "155564812426-rb1ah11koifv1r3hes7ss4vcsbdrtpn8.apps.googleusercontent.com",
+              "client_id": "476540833515-5imgo4j1v6fae0q61mtfvjqq3f33517g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
