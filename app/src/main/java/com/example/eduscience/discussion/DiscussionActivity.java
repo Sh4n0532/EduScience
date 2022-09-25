@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.eduscience.R;
@@ -20,6 +21,7 @@ public class DiscussionActivity extends AppCompatActivity {
 
     private BottomNavigationView navBar;
     private TextView toolbarTitle;
+    private FloatingActionButton btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class DiscussionActivity extends AppCompatActivity {
 
         navBar = findViewById(R.id.navBar);
         toolbarTitle = findViewById(R.id.toolbarTitle);
+        btnAdd = findViewById(R.id.btnAdd);
 
         navBar.setSelectedItemId(R.id.navDiscussion);
         navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,5 +57,17 @@ public class DiscussionActivity extends AppCompatActivity {
         });
 
         toolbarTitle.setText("Discussion");
+
+        // function
+        clickBtnAdd();
+    }
+
+    private void clickBtnAdd() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DiscussionActivity.this, AddPostActivity.class));
+            }
+        });
     }
 }

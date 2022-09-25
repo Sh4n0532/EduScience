@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".discussion.AddPostActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true">
+
+        <include layout="@layout/toolbar"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/btnChooseImage"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:src="@drawable/ic_choose_image"
+            android:layout_marginTop="50dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtContentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="What do you want to share?"
+            android:layout_marginTop="10dp"
+            app:boxStrokeColor="@color/pink"
+            app:hintTextColor="@color/black"
+            android:layout_below="@id/btnChooseImage"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/allerta"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:lines="6"
+                android:gravity="top|start"
+                android:scrollbars="vertical"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/pink"
+            android:text="Post"
+            android:textColor="@color/white"
+            android:fontFamily="@font/allerta"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/txtContentLayout"/>
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/pink"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/navBar"
+        android:background="@color/pink"
+        app:itemTextColor="@drawable/navigation_selector"
+        app:itemIconTint="@drawable/navigation_selector"
+        app:menu="@menu/navigation"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
