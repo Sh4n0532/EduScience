@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".discussion.ViewPostActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true">
+
+        <include layout="@layout/toolbar"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imgUser"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_user"
+            android:layout_marginTop="50dp"/>
+
+        <TextView
+            android:id="@+id/txtUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textColor="@color/black"
+            android:fontFamily="@font/allerta"
+            android:layout_toRightOf="@id/imgUser"
+            android:paddingLeft="7dp"
+            android:layout_marginTop="56dp" />
+
+        <TextView
+            android:id="@+id/txtCreatedOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25 Sep 2022"
+            android:textColor="@color/black"
+            android:fontFamily="@font/allerta"
+            android:layout_toRightOf="@id/imgUser"
+            android:layout_below="@id/txtUsername"
+            android:paddingLeft="7dp"/>
+
+        <ImageView
+            android:id="@+id/imgPost"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_below="@+id/imgUser"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/txtContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="16"
+            android:layout_marginTop="10dp"
+            android:scrollbars="vertical"
+            android:text="Post content"
+            android:fontFamily="@font/allerta"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:layout_below="@id/imgPost"
+            android:padding="5dp"/>
+
+    </RelativeLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/navBar"
+        android:background="@color/pink"
+        app:itemTextColor="@drawable/navigation_selector"
+        app:itemIconTint="@drawable/navigation_selector"
+        app:menu="@menu/navigation"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

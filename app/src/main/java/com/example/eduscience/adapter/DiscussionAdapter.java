@@ -1,6 +1,7 @@
 package com.example.eduscience.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.eduscience.R;
+import com.example.eduscience.discussion.ViewPostActivity;
 import com.example.eduscience.model.Discussion;
 import com.example.eduscience.model.Lesson;
 import com.example.eduscience.model.Tutorial;
@@ -71,6 +73,9 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
         if(discussion.getImgUrl() != null) {
             Glide.with(holder.imgPost.getContext()).load(discussion.getImgUrl()).into(holder.imgPost);
         }
+        else {
+            holder.imgPost.setVisibility(View.GONE);
+        }
 
         holder.txtCreatedOn.setText(discussion.getCreatedOn());
         holder.txtContent.setText(discussion.getContent());
@@ -97,7 +102,16 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
             txtCreatedOn = itemView.findViewById(R.id.txtCreatedOn);
             txtContent = itemView.findViewById(R.id.txtContent);
 
-
+            discussionLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    Discussion discussion = discussionList.get(position);
+                    Intent intent = new Intent(context, ViewPostActivity.class);
+                    intent.putExtra("postId", discussion.getId());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

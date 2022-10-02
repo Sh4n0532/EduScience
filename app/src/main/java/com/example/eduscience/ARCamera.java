@@ -6,8 +6,11 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
@@ -22,6 +25,7 @@ public class ARCamera extends AppCompatActivity {
 
     private ArFragment arCam;
     private int clickNo = 0;
+    private String modelUrl;
 
     public static boolean checkSystemSupport(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -48,6 +52,9 @@ public class ARCamera extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arcamera);
 
+        Intent intent = getIntent();
+        modelUrl = intent.getStringExtra("modelUrl");
+
         if (checkSystemSupport(this)) {
             arCam = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arCameraArea);
             assert arCam != null;
@@ -57,7 +64,7 @@ public class ARCamera extends AppCompatActivity {
                 if(clickNo == 1){
                     Anchor anchor = hitResult.createAnchor();
                     ModelRenderable.builder()
-                            .setSource(this,R.raw.heart)
+                            .setSource(this, Uri.parse(modelUrl))
                             .setIsFilamentGltf(true)
                             .build()
                             .thenAccept(modelRenderable -> addModel(anchor , modelRenderable))

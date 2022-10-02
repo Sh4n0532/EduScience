@@ -18,6 +18,7 @@ import com.example.eduscience.leaderboard.LeaderboardActivity;
 import com.example.eduscience.learning.LessonActivity;
 import com.example.eduscience.model.Discussion;
 import com.example.eduscience.model.Lesson;
+import com.example.eduscience.model.Quiz;
 import com.example.eduscience.model.Tutorial;
 import com.example.eduscience.profile.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,6 +31,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DiscussionActivity extends AppCompatActivity {
 
@@ -77,7 +79,7 @@ public class DiscussionActivity extends AppCompatActivity {
 
         toolbarTitle.setText("Discussion");
 
-        dbRef = FirebaseDatabase.getInstance().getReference("discussion");
+        dbRef = FirebaseDatabase.getInstance().getReference();
 
         getDiscussion();
         recyclerView.setHasFixedSize(true);
@@ -91,15 +93,19 @@ public class DiscussionActivity extends AppCompatActivity {
     }
 
     private void getDiscussion() {
-        dbRef.addValueEventListener(new ValueEventListener() {
+        Query query = dbRef.child("discussion").orderByChild("createdOn");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Discussion discussion = dataSnapshot.getValue(Discussion.class);
-                    discussion.setId(dataSnapshot.getKey());
-                    discussionList.add(discussion);
+                if(snapshot.exists()){
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Discussion discussion = dataSnapshot.getValue(Discussion.class);
+                        discussion.setId(dataSnapshot.getKey());
+                        discussionList.add(discussion);
+                    }
+                    Collections.reverse(discussionList);
+                    discussionAdapter.notifyDataSetChanged();
                 }
-                discussionAdapter.notifyDataSetChanged();
             }
 
             @Override

@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EduScience">
         <activity
+            android:name=".discussion.ViewPostActivity"
+            android:exported="false" />
+        <activity
             android:name=".discussion.AddPostActivity"
             android:exported="false" />
         <activity
