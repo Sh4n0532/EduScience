@@ -52,24 +52,51 @@
             android:id="@+id/imgPost"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/ic_launcher_background"
             android:layout_below="@+id/imgUser"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
 
         <TextView
             android:id="@+id/txtContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:lines="16"
+            android:layout_below="@id/imgPost"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/allerta"
+            android:inputType="textMultiLine"
+            android:lines="13"
+            android:padding="5dp"
             android:scrollbars="vertical"
             android:text="Post content"
-            android:fontFamily="@font/allerta"
             android:textColor="@color/black"
-            android:textSize="15dp"
-            android:layout_below="@id/imgPost"
-            android:padding="5dp"/>
+            android:textSize="15dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtContent"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:layout_marginRight="20dp"/>
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:backgroundTint="@color/red"
+                android:textColor="@color/white"
+                android:layout_toRightOf="@id/btnEdit"
+                android:layout_marginLeft="20dp"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.example.eduscience.model.Discussion;
 import com.example.eduscience.model.User;
 import com.example.eduscience.profile.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +38,7 @@ public class ViewPostActivity extends AppCompatActivity {
     private ImageView imgUser, imgPost;
     private DatabaseReference dbRef;
     private String userId;
+    private Button btnEdit, btnDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class ViewPostActivity extends AppCompatActivity {
         txtContent = findViewById(R.id.txtContent);
         imgUser = findViewById(R.id.imgUser);
         imgPost = findViewById(R.id.imgPost);
+        btnEdit = findViewById(R.id.btnEdit);
+        btnDelete = findViewById(R.id.btnDelete);
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         navBar.setSelectedItemId(R.id.navDiscussion);
@@ -83,6 +88,18 @@ public class ViewPostActivity extends AppCompatActivity {
 
         // function
         getPost();
+        clickEdit();
+    }
+
+    private void clickEdit() {
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewPostActivity.this, EditPostActivity.class);
+                intent.putExtra("postId", postId);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getPost() {
@@ -102,6 +119,16 @@ public class ViewPostActivity extends AppCompatActivity {
                         }
                         else {
                             imgPost.setVisibility(View.GONE);
+                        }
+
+                        String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        if(currentUser.equals(userId)) {
+                            btnEdit.setVisibility(View.VISIBLE);
+                            btnDelete.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            btnEdit.setVisibility(View.GONE);
+                            btnDelete.setVisibility(View.GONE);
                         }
                     }
 
