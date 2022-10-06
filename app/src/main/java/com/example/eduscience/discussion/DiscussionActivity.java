@@ -101,7 +101,9 @@ public class DiscussionActivity extends AppCompatActivity {
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         Discussion discussion = dataSnapshot.getValue(Discussion.class);
                         discussion.setId(dataSnapshot.getKey());
-                        discussionList.add(discussion);
+                        if(discussion.getApprove()) {
+                            discussionList.add(discussion);
+                        }
                     }
                     Collections.reverse(discussionList);
                     discussionAdapter.notifyDataSetChanged();

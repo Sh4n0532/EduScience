@@ -130,6 +130,8 @@ public class AddPostActivity extends AppCompatActivity {
                 String createdOn = dateFormat.format(date).toString();
                 discussion.setCreatedOn(createdOn);
 
+                discussion.setApprove(false);
+
                 // primary key
                 String id = FirebaseDatabase.getInstance().getReference("discussion").push().getKey();
 

@@ -2,15 +2,17 @@ package com.example.eduscience.model;
 
 public class Discussion {
     String id, content, imgUrl, userId, createdOn;
+    Boolean approve;
 
     public Discussion() {
     }
 
-    public Discussion(String content, String imgUrl, String userId, String createdOn) {
+    public Discussion(String content, String imgUrl, String userId, String createdOn, Boolean approve) {
         this.content = content;
         this.imgUrl = imgUrl;
         this.userId = userId;
         this.createdOn = createdOn;
+        this.approve = approve;
     }
 
     public String getId() {
@@ -52,4 +54,9 @@ public class Discussion {
     public void setCreatedOn(String createdOn) {
         this.createdOn = createdOn;
     }
+
+    public Boolean getApprove() { return approve; }
+
+    public void setApprove(Boolean approve) { this.approve = approve; }
 }
+
