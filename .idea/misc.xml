@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/drawable/border.xml" value="0.37864583333333335" />
+        <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/drawable/circle.xml" value="0.37864583333333335" />
+        <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/drawable/circle_border.xml" value="0.37864583333333335" />
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/drawable/correct_answer.xml" value="0.37864583333333335" />
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/drawable/custom_progress_bar.xml" value="0.37864583333333335" />
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/drawable/navigation_selector.xml" value="0.37864583333333335" />
@@ -25,6 +28,7 @@
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/layout/activity_view_post.xml" value="0.3625" />
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/layout/correct_answer_dialog.xml" value="0.3625" />
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/layout/discussion_item.xml" value="0.3625" />
+        <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/layout/leaderboard_item.xml" value="0.3625" />
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/layout/lesson_item.xml" value="0.3625" />
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/layout/quiz_item.xml" value="0.3625" />
         <entry key="..\:/Sh4n/Code/EduScience/app/src/main/res/layout/toolbar.xml" value="0.33" />

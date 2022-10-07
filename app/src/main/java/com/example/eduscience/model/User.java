@@ -2,14 +2,16 @@ package com.example.eduscience.model;
 
 public class User {
     public String username, email, role;
+    public int totalMark;
 
     public User() {
     }
 
-    public User(String username, String email, String role) {
+    public User(String username, String email, String role, int totalMark) {
         this.username = username;
         this.email = email;
         this.role = role;
+        this.totalMark = totalMark;
     }
 
     public String getUsername() {
@@ -34,5 +36,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getTotalMark() {
+        return totalMark;
+    }
+
+    public void setTotalMark(int totalMark) {
+        this.totalMark = totalMark;
     }
 }

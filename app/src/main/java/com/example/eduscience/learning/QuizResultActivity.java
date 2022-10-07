@@ -11,7 +11,10 @@ import android.widget.TextView;
 
 import com.example.eduscience.R;
 import com.example.eduscience.leaderboard.LeaderboardActivity;
+import com.example.eduscience.model.Quiz;
 import com.example.eduscience.model.QuizResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,9 +29,8 @@ public class QuizResultActivity extends AppCompatActivity {
 
     private TextView txtQuizMark;
     private Button btnBack, btnLeaderboard;
-    private DatabaseReference dbRef;
-    private String lessonId;
-    private int mark;
+    private String lessonId, userId;
+    private int mark, totalMark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,8 @@ public class QuizResultActivity extends AppCompatActivity {
         txtQuizMark = findViewById(R.id.txtQuizMark);
         btnBack = findViewById(R.id.btnBack);
         btnLeaderboard = findViewById(R.id.btnLeaderboard);
-        dbRef = FirebaseDatabase.getInstance().getReference();
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        totalMark = 0;
 
         // show quiz mark
         Intent intent = getIntent();
@@ -61,36 +64,51 @@ public class QuizResultActivity extends AppCompatActivity {
         });
     }
 
-    private void saveQuizResult() {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid(); // current login user id
-        Query query = dbRef.child("quiz_result").orderByChild("userId").equalTo(userId);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void updateTotalMark() {
+        FirebaseDatabase.getInstance().getReference("quiz_result").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){ // done the quiz before
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        QuizResult result = dataSnapshot.getValue(QuizResult.class);
-                        result.setId(dataSnapshot.getKey());
-                        if(result.getLessonId().equals(lessonId)){
-                            if(result.getMark() < mark){
-                                // update the highest mark
-                                HashMap newResult = new HashMap();
-                                newResult.put("lessonId", lessonId);
-                                newResult.put("userId", userId);
-                                newResult.put("mark", mark);
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    QuizResult result = dataSnapshot.getValue(QuizResult.class);
+                    result.setId(dataSnapshot.getKey());
 
-                                FirebaseDatabase.getInstance().getReference("quiz_result")
-                                        .child(result.getId())
-                                        .updateChildren(newResult);
-                            }
-                        }
+                    if(userId.equals(result.getUserId())) {
+                        totalMark += result.getMark();
                     }
                 }
-                else { // 1st try of the quiz
-                    QuizResult result = new QuizResult(userId, lessonId, mark);
-                    String id = FirebaseDatabase.getInstance().getReference("quiz_result").push().getKey();
-                    FirebaseDatabase.getInstance().getReference("quiz_result").child(id).setValue(result);
+                FirebaseDatabase.getInstance().getReference("user").child(userId).child("totalMark").setValue(totalMark);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void saveQuizResult() {
+        FirebaseDatabase.getInstance().getReference("quiz_result").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    QuizResult result = dataSnapshot.getValue(QuizResult.class);
+                    result.setId(dataSnapshot.getKey());
+
+                    if(userId.equals(result.getUserId()) && lessonId.equals(result.getLessonId())) {
+                        if(mark > result.getMark()) {
+                            // update the highest mark
+                            FirebaseDatabase.getInstance().getReference("quiz_result").child(result.getId()).child("mark").setValue(mark);
+                        }
+                        updateTotalMark();
+                        return;
+                    }
                 }
+
+                // first time quiz
+                QuizResult newResult = new QuizResult(userId, lessonId, mark);
+                String id = FirebaseDatabase.getInstance().getReference("quiz_result").push().getKey();
+                FirebaseDatabase.getInstance().getReference("quiz_result").child(id).setValue(newResult);
+                updateTotalMark();
             }
 
             @Override

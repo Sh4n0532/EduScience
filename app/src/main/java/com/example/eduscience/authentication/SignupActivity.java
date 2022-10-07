@@ -116,7 +116,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){ // user is created but not stored into database yet
-                            User user = new User(username, email, "User");
+                            User user = new User(username, email, "User", 0);
                             FirebaseDatabase.getInstance().getReference("user")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

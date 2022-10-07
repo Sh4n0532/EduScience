@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/leaderboardLayout"
+    android:orientation="vertical"
+    android:layout_marginBottom="5dp">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+            <RelativeLayout
+                android:id="@+id/rankingLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_border">
+
+                <TextView
+                    android:id="@+id/txtRanking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:fontFamily="@font/allerta"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/black"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imgUser"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/ic_user"
+                android:layout_toRightOf="@id/rankingLayout"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/txtUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:layout_toRightOf="@id/imgUser"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/allerta"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:layout_marginLeft="10dp"/>
+
+
+            <TextView
+                android:id="@+id/txtTotalMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/allerta"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+
+
+</LinearLayout>
