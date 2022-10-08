@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,33 +56,46 @@ public class QuizResultActivity extends AppCompatActivity {
         clickBtnLeaderboard();
     }
 
-    private void clickBtnLeaderboard() {
-        btnLeaderboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(QuizResultActivity.this, LeaderboardActivity.class));
-            }
-        });
-    }
-
     private void updateTotalMark() {
-        FirebaseDatabase.getInstance().getReference("quiz_result").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("user").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    QuizResult result = dataSnapshot.getValue(QuizResult.class);
-                    result.setId(dataSnapshot.getKey());
+                    String userKey = dataSnapshot.getKey();
+                    Query query = FirebaseDatabase.getInstance().getReference("quiz_result").orderByChild("userId").equalTo(userKey);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()) {
+                                totalMark = 0;
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    QuizResult result = dataSnapshot.getValue(QuizResult.class);
+                                    totalMark += result.getMark();
+                                }
+                                FirebaseDatabase.getInstance().getReference("user").child(userKey).child("totalMark").setValue(totalMark);
+                            }
+                        }
 
-                    if(userId.equals(result.getUserId())) {
-                        totalMark += result.getMark();
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
-                FirebaseDatabase.getInstance().getReference("user").child(userId).child("totalMark").setValue(totalMark);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+
+    private void clickBtnLeaderboard() {
+        btnLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(QuizResultActivity.this, LeaderboardActivity.class));
             }
         });
     }
