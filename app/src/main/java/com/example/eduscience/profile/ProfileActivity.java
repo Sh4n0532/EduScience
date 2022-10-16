@@ -86,6 +86,16 @@ public class ProfileActivity extends AppCompatActivity {
         clickLogout();
         clickChangePassword();
         clickContactUs();
+        clickMyPost();
+    }
+
+    private void clickMyPost() {
+        btnMyPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, MyPostActivity.class));
+            }
+        });
     }
 
     private void clickContactUs() {

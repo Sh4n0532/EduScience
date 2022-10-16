@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eduscience.R;
 import com.example.eduscience.discussion.DiscussionActivity;
@@ -26,7 +27,6 @@ public class ContactUsActivity extends AppCompatActivity {
     private BottomNavigationView navBar;
     private EditText txtTitle, txtMessage;
     private Button btnSendMessage;
-    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,6 @@ public class ContactUsActivity extends AppCompatActivity {
         txtTitle = findViewById(R.id.txtTitle);
         txtMessage = findViewById(R.id.txtMessage);
         btnSendMessage = findViewById(R.id.btnSendMessage);
-        progressBar = findViewById(R.id.progressBar);
 
         navBar.setSelectedItemId(R.id.navProfile);
         navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -89,6 +88,20 @@ public class ContactUsActivity extends AppCompatActivity {
                     txtMessage.setError("Required field!");
                     txtMessage.requestFocus();
                     return;
+                }
+
+                // form valid, send email
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+                intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"khooeeshan@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, title);
+                intent.putExtra(Intent.EXTRA_TEXT   , message);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(Intent.createChooser(intent, "Send mail..."));
+                    finish();
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(ContactUsActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
