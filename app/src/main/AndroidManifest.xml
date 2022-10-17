@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EduScience">
         <activity
+            android:name=".profile.MyResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".profile.MyPostActivity"
             android:exported="false" />
         <activity

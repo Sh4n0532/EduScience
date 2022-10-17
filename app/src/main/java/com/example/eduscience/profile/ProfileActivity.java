@@ -87,6 +87,16 @@ public class ProfileActivity extends AppCompatActivity {
         clickChangePassword();
         clickContactUs();
         clickMyPost();
+        clickMyResult();
+    }
+
+    private void clickMyResult() {
+        btnMyResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, MyResultActivity.class));
+            }
+        });
     }
 
     private void clickMyPost() {
