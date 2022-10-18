@@ -25,24 +25,25 @@
             android:layout_height="wrap_content"
             android:padding="15dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgUser"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_user" />
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_user"
+                android:layout_centerHorizontal="true"/>
 
             <TextView
                 android:id="@+id/txtUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/imgUser"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/imgUser"
                 android:fontFamily="@font/allerta"
                 android:text="Username"
                 android:textColor="@color/black"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"/>
 
         </RelativeLayout>
 
@@ -72,7 +73,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/ic_next"
                 android:layout_alignParentRight="true"
-                app:tint="@color/black"/>
+                app:tint="@color/black" />
 
         </RelativeLayout>
 
@@ -184,6 +185,17 @@
             android:layout_marginRight="15dp"/>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/pink"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

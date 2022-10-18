@@ -1,26 +1,38 @@
 package com.example.eduscience.profile;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.eduscience.R;
 import com.example.eduscience.authentication.LoginActivity;
 import com.example.eduscience.discussion.DiscussionActivity;
+import com.example.eduscience.discussion.EditPostActivity;
 import com.example.eduscience.discussion.ViewPostActivity;
 import com.example.eduscience.leaderboard.LeaderboardActivity;
 import com.example.eduscience.learning.LessonActivity;
 import com.example.eduscience.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +41,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -37,7 +52,11 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView imgUser;
     private RelativeLayout btnMyPost, btnMyResult, btnChangePassword, btnContactUs;
     private Button btnLogout;
+    private ProgressBar progressBar;
     private DatabaseReference dbRef;
+    private final int GALLERY_REQUEST_CODE = 100;
+    private Uri imageUri;
+    private StorageReference sRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +72,9 @@ public class ProfileActivity extends AppCompatActivity {
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnContactUs = findViewById(R.id.btnContactUs);
         btnLogout = findViewById(R.id.btnLogout);
+        progressBar = findViewById(R.id.progressBar);
         dbRef = FirebaseDatabase.getInstance().getReference();
+        sRef = FirebaseStorage.getInstance().getReference();
 
         navBar.setSelectedItemId(R.id.navProfile);
         navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -82,12 +103,73 @@ public class ProfileActivity extends AppCompatActivity {
         toolbarTitle.setText("Profile");
 
         // functions
-        getUsername();
+        getUserInfo();
         clickLogout();
         clickChangePassword();
         clickContactUs();
         clickMyPost();
         clickMyResult();
+        clickImgUser();
+    }
+
+    private void clickImgUser() {
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(intent, GALLERY_REQUEST_CODE);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            imageUri = data.getData();
+            imgUser.setImageURI(imageUri);
+            imgUser.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            // upload and change user profile image
+            progressBar.setVisibility(View.VISIBLE);
+            ContentResolver cr = getContentResolver();
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            String fileExt = mime.getExtensionFromMimeType(cr.getType(imageUri));
+            StorageReference fileRef = sRef.child("profile/" + System.currentTimeMillis() + "." + fileExt);
+            fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            FirebaseDatabase.getInstance().getReference("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("imgUrl").setValue(uri.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(ProfileActivity.this, "Profile picture updated successfully.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(ProfileActivity.this, "Update profile picture failed. Please try again", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(ProfileActivity.this, "Upload image failed. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void clickMyResult() {
@@ -156,7 +238,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void getUsername() {
+    private void getUserInfo() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Query query = dbRef.child("user").orderByKey().equalTo(userId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -166,6 +248,10 @@ public class ProfileActivity extends AppCompatActivity {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         User user = dataSnapshot.getValue(User.class);
                         txtUsername.setText(user.getUsername());
+
+                        if(user.getImgUrl() != null) {
+                            Glide.with(imgUser.getContext()).load(user.getImgUrl()).into(imgUser);
+                        }
                     }
                 }
             }
