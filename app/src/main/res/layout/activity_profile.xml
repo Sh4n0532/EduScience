@@ -32,18 +32,47 @@
                 android:src="@drawable/ic_user"
                 android:layout_centerHorizontal="true"/>
 
-            <TextView
-                android:id="@+id/txtUsername"
+            <ViewSwitcher
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/viewSwitcher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/imgUser"
-                android:fontFamily="@font/allerta"
-                android:text="Username"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/txtUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:clickable="true"
+                    android:onClick="clickSwitch"
+                    android:text="Username"
+                    android:fontFamily="@font/allerta"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/editTxtUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Username" />
+            </ViewSwitcher>
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtUsername"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_below="@id/imgUser"-->
+<!--                android:fontFamily="@font/allerta"-->
+<!--                android:text="Username"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="20dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_marginTop="5dp"/>-->
 
         </RelativeLayout>
 

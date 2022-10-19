@@ -14,11 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.example.eduscience.R;
@@ -110,6 +112,13 @@ public class ProfileActivity extends AppCompatActivity {
         clickMyPost();
         clickMyResult();
         clickImgUser();
+    }
+
+    public void clickSwitch() {
+        ViewSwitcher viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
+        viewSwitcher.showNext();
+        TextView myTV = (TextView) viewSwitcher.findViewById(R.id.txtUsername);
+        myTV.setText("Username");
     }
 
     private void clickImgUser() {
