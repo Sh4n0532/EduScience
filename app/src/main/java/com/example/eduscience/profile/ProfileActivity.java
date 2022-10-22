@@ -10,8 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +38,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,6 +53,8 @@ import com.google.firebase.storage.UploadTask;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView toolbarTitle, txtUsername;
+    private EditText editTxtUsername;
+    private TextInputLayout editTxtUsernameLayout;
     private BottomNavigationView navBar;
     private ImageView imgUser;
     private RelativeLayout btnMyPost, btnMyResult, btnChangePassword, btnContactUs;
@@ -68,6 +73,8 @@ public class ProfileActivity extends AppCompatActivity {
         navBar = findViewById(R.id.navBar);
         toolbarTitle = findViewById(R.id.toolbarTitle);
         txtUsername = findViewById(R.id.txtUsername);
+        editTxtUsername = findViewById(R.id.editTxtUsername);
+        editTxtUsernameLayout = findViewById(R.id.editTxtUsernameLayout);
         imgUser = findViewById(R.id.imgUser);
         btnMyPost = findViewById(R.id.btnMyPost);
         btnMyResult = findViewById(R.id.btnMyResult);
@@ -105,6 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
         toolbarTitle.setText("Profile");
 
         // functions
+        switchView();
         getUserInfo();
         clickLogout();
         clickChangePassword();
@@ -114,11 +122,45 @@ public class ProfileActivity extends AppCompatActivity {
         clickImgUser();
     }
 
-    public void clickSwitch() {
-        ViewSwitcher viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
-        viewSwitcher.showNext();
-        TextView myTV = (TextView) viewSwitcher.findViewById(R.id.txtUsername);
-        myTV.setText("Username");
+    private void switchView() {
+        txtUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = txtUsername.getText().toString().trim();
+                txtUsername.setVisibility(View.GONE);
+                editTxtUsername.setText(username);
+                editTxtUsernameLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        editTxtUsername.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_DONE) {
+                    String newUsername = editTxtUsername.getText().toString().trim();
+
+                    editTxtUsername.clearFocus();
+                    editTxtUsernameLayout.setVisibility(View.GONE);
+                    txtUsername.setText(newUsername);
+                    txtUsername.setVisibility(View.VISIBLE);
+
+                    // save new username to database
+                    FirebaseDatabase.getInstance().getReference("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("username").setValue(newUsername).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()) {
+                                Toast.makeText(ProfileActivity.this, "Username updated successfully.", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                Toast.makeText(ProfileActivity.this, "Update username failed. Please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+                return false;
+            }
+        });
     }
 
     private void clickImgUser() {
