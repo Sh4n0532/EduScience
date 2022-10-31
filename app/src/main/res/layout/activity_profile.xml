@@ -29,8 +29,8 @@
                 android:id="@+id/imgUser"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/ic_user"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_user" />
 
             <TextView
                 android:id="@+id/txtUsername"

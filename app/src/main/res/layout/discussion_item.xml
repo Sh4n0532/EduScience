@@ -17,11 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgUser"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_user"/>
+                android:src="@drawable/ic_user"
+                android:layout_margin="5dp"/>
 
             <TextView
                 android:id="@+id/txtUsername"
@@ -32,7 +33,7 @@
                 android:fontFamily="@font/allerta"
                 android:layout_toRightOf="@id/imgUser"
                 android:paddingLeft="7dp"
-                android:layout_marginTop="6dp"/>
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/txtCreatedOn"

@@ -30,14 +30,15 @@
                     android:textColor="@color/black"/>
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/imgUser"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:src="@drawable/ic_user"
-                android:layout_toRightOf="@id/rankingLayout"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUser"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/rankingLayout"
+            android:src="@drawable/ic_user"
+            android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/txtUsername"

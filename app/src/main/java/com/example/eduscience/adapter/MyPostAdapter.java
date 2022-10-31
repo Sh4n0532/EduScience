@@ -60,6 +60,9 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyPostView
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         User user = dataSnapshot.getValue(User.class);
                         holder.txtUsername.setText(user.getUsername());
+                        if(user.getImgUrl() != null) {
+                            Glide.with(holder.imgUser.getContext()).load(user.getImgUrl()).into(holder.imgUser);
+                        }
                     }
                 }
             }

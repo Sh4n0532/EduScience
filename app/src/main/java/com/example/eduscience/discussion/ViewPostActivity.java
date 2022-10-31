@@ -212,6 +212,9 @@ public class ViewPostActivity extends AppCompatActivity {
                                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     User user = dataSnapshot.getValue(User.class);
                                     txtUsername.setText(user.getUsername());
+                                    if(user.getImgUrl() != null) {
+                                        Glide.with(imgUser.getContext()).load(user.getImgUrl()).into(imgUser);
+                                    }
                                 }
                             }
                         }

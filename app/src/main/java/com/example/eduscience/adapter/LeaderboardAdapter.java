@@ -10,8 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.eduscience.R;
 import com.example.eduscience.model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -35,9 +42,14 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(@NonNull LeaderboardAdapter.LeaderboardViewHolder holder, int position) {
         User user = userList.get(position);
+
         holder.txtRanking.setText(String.valueOf(position + 1));
         holder.txtTotalMark.setText(String.valueOf(user.getTotalMark()));
         holder.txtUsername.setText(user.getUsername());
+
+        if(user.getImgUrl() != null) {
+            Glide.with(holder.imgUser.getContext()).load(user.getImgUrl()).into(holder.imgUser);
+        }
     }
 
     @Override

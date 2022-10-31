@@ -8,8 +8,7 @@
         android:id="@+id/tutImg"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:src="@drawable/ic_launcher_background"
-        android:scaleType="centerCrop"/>
+        android:src="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/txtTutContent"
