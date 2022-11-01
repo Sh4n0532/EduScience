@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -130,6 +131,9 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.clear();
                                 }
                                 editor.commit(); // save changes
+
+                                // record login time
+                                FirebaseDatabase.getInstance().getReference("user").child(user.getUid()).child("timeIn").setValue(System.currentTimeMillis());
 
                                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, LessonActivity.class));

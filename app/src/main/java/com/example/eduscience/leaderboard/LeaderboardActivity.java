@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.eduscience.HelperMethod;
 import com.example.eduscience.R;
 import com.example.eduscience.adapter.LeaderboardAdapter;
 import com.example.eduscience.adapter.LessonAdapter;
