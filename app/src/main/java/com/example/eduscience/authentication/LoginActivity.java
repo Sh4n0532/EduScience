@@ -120,28 +120,23 @@ public class LoginActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.INVISIBLE);
 
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            if(user.isEmailVerified()){
-                                if(cbRememberMe.isChecked()){
-                                    // setting value
-                                    editor.putBoolean("remember", true);
-                                    editor.putString("email", email);
-                                    editor.putString("password", password);
-                                }
-                                else {
-                                    editor.clear();
-                                }
-                                editor.commit(); // save changes
-
-                                // record login time
-                                FirebaseDatabase.getInstance().getReference("user").child(user.getUid()).child("timeIn").setValue(System.currentTimeMillis());
-
-                                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, LessonActivity.class));
+                            if(cbRememberMe.isChecked()){
+                                // setting value
+                                editor.putBoolean("remember", true);
+                                editor.putString("email", email);
+                                editor.putString("password", password);
                             }
                             else {
-                                user.sendEmailVerification();
-                                Toast.makeText(LoginActivity.this, "Please verify your email to login", Toast.LENGTH_SHORT).show();
+                                editor.clear();
                             }
+                            editor.commit(); // save changes
+
+                            // record login time
+                            FirebaseDatabase.getInstance().getReference("user").child(user.getUid()).child("timeIn").setValue(System.currentTimeMillis());
+
+                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, LessonActivity.class));
+
                         }
                         else {
                             progressBar.setVisibility(View.INVISIBLE);

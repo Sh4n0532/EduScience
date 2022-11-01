@@ -124,9 +124,7 @@ public class SignupActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         progressBar.setVisibility(View.INVISIBLE);
-                                        FirebaseUser curUser = FirebaseAuth.getInstance().getCurrentUser();
-                                        curUser.sendEmailVerification();
-                                        Toast.makeText(SignupActivity.this, "Account registered. A verification link has been sent to your email", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SignupActivity.this, "Account registered. Proceed to login now.", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                                     }
                                     else {
