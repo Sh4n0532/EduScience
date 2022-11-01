@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.eduscience.HelperMethod;
 import com.example.eduscience.R;
 import com.example.eduscience.adapter.DiscussionAdapter;
 import com.example.eduscience.adapter.LessonAdapter;
@@ -124,5 +125,16 @@ public class DiscussionActivity extends AppCompatActivity {
                 startActivity(new Intent(DiscussionActivity.this, AddPostActivity.class));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(DiscussionActivity.this, LessonActivity.class));
+    }
+
+    @Override
+    protected void onResume() {
+        navBar.setSelectedItemId(R.id.navDiscussion);
+        super.onResume();
     }
 }

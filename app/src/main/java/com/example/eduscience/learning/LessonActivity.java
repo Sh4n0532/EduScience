@@ -2,10 +2,12 @@ package com.example.eduscience.learning;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,11 +20,13 @@ import android.widget.TextView;
 import com.example.eduscience.ARCamera;
 import com.example.eduscience.R;
 import com.example.eduscience.adapter.LessonAdapter;
+import com.example.eduscience.authentication.LoginActivity;
 import com.example.eduscience.discussion.DiscussionActivity;
 import com.example.eduscience.leaderboard.LeaderboardActivity;
 import com.example.eduscience.model.Lesson;
 import com.example.eduscience.profile.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -102,5 +106,38 @@ public class LessonActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LessonActivity.this);
+        builder.setTitle("Logout and Exit"); // alert box title
+        builder.setIcon(R.drawable.ic_warning);
+        builder.setMessage("Are you sure you want to logout and exit the application?");
+
+        // confirm button
+        builder.setPositiveButton("LOGOUT & EXIT", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseAuth.getInstance().signOut();
+                finishAffinity();
+                finish();
+            }
+        });
+
+        // cancel button
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    protected void onResume() {
+        navBar.setSelectedItemId(R.id.navLesson);
+        super.onResume();
     }
 }

@@ -313,4 +313,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        navBar.setSelectedItemId(R.id.navProfile);
+        super.onResume();
+    }
 }

@@ -140,4 +140,9 @@ public class QuizResultActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(QuizResultActivity.this, LessonActivity.class));
+    }
 }
