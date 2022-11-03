@@ -2,6 +2,7 @@ package com.example.eduscience.discussion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eduscience.R;
 import com.example.eduscience.adapter.DiscussionAdapter;
@@ -43,6 +45,8 @@ public class DiscussionActivity extends AppCompatActivity {
     private ArrayList<Discussion> discussionList;
     private DiscussionAdapter discussionAdapter;
 
+    private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,9 @@ public class DiscussionActivity extends AppCompatActivity {
         toolbarTitle = findViewById(R.id.toolbarTitle);
         btnAdd = findViewById(R.id.btnAdd);
         recyclerView = findViewById(R.id.recyclerView);
+        discussionList = new ArrayList<>();
+
+        searchView = findViewById(R.id.searchView);
 
         navBar.setSelectedItemId(R.id.navDiscussion);
         navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -84,12 +91,37 @@ public class DiscussionActivity extends AppCompatActivity {
         getDiscussion();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        discussionList = new ArrayList<>();
         discussionAdapter = new DiscussionAdapter(this, discussionList);
         recyclerView.setAdapter(discussionAdapter);
 
         // function
         clickBtnAdd();
+        searchPost();
+    }
+
+    private void searchPost() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String text) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String text) {
+                ArrayList<Discussion> filteredList = new ArrayList<>();
+
+                for(Discussion item : discussionList) {
+                    if(item.getContent().toLowerCase().contains(text.toLowerCase())) {
+                        filteredList.add(item);
+                    }
+                }
+
+                discussionAdapter = new DiscussionAdapter(DiscussionActivity.this, filteredList);
+                recyclerView.setAdapter(discussionAdapter);
+
+                return false;
+            }
+        });
     }
 
     private void getDiscussion() {
