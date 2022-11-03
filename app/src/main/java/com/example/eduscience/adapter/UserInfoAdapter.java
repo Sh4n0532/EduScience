@@ -16,9 +16,10 @@ import com.bumptech.glide.Glide;
 import com.example.eduscience.R;
 import com.example.eduscience.discussion.UserInfoActivity;
 import com.example.eduscience.discussion.ViewPostActivity;
+import com.example.eduscience.learning.QuizActivity;
+import com.example.eduscience.learning.TutorialActivity;
 import com.example.eduscience.model.Discussion;
 import com.example.eduscience.model.Lesson;
-import com.example.eduscience.model.Tutorial;
 import com.example.eduscience.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,27 +29,25 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.DiscussionViewHolder> {
-
+public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.UserInfoViewHolder> {
     Context context;
     ArrayList<Discussion> discussionList;
 
-    public DiscussionAdapter(Context context, ArrayList<Discussion> discussionList) {
+    public UserInfoAdapter(Context context, ArrayList<Discussion> discussionList) {
         this.context = context;
         this.discussionList = discussionList;
     }
 
     @NonNull
     @Override
-    public DiscussionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserInfoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.discussion_item, parent, false);
-        return new DiscussionAdapter.DiscussionViewHolder(view);
+        return new UserInfoViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DiscussionViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserInfoViewHolder holder, int position) {
         Discussion discussion = discussionList.get(position);
 
         // get username
@@ -92,13 +91,13 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
         return discussionList.size();
     }
 
-    public class DiscussionViewHolder extends RecyclerView.ViewHolder {
+    public class UserInfoViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout discussionLayout;
         ImageView imgUser, imgPost;
         TextView txtUsername, txtCreatedOn, txtContent;
 
-        public DiscussionViewHolder(@NonNull View itemView) {
+        public UserInfoViewHolder(@NonNull View itemView) {
             super(itemView);
 
             discussionLayout = itemView.findViewById(R.id.discussionLayout);
@@ -115,17 +114,6 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
                     Discussion discussion = discussionList.get(position);
                     Intent intent = new Intent(context, ViewPostActivity.class);
                     intent.putExtra("postId", discussion.getId());
-                    context.startActivity(intent);
-                }
-            });
-
-            imgUser.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    Discussion discussion = discussionList.get(position);
-                    Intent intent = new Intent(context, UserInfoActivity.class);
-                    intent.putExtra("userId", discussion.getUserId());
                     context.startActivity(intent);
                 }
             });
