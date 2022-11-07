@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class MyResultAdapter extends RecyclerView.Adapter<MyResultAdapter.MyResultViewHolder> {
     Context context;
     ArrayList<QuizResult> quizResultList;
-    int tutorialCount = 0;
+    int quizCount = 0;
     Lesson lesson;
 
     public MyResultAdapter(Context context, ArrayList<QuizResult> quizResultList) {
@@ -67,16 +67,16 @@ public class MyResultAdapter extends RecyclerView.Adapter<MyResultAdapter.MyResu
             }
         });
 
-        Query query1 = dbRef.child("tutorial").orderByChild("lessonId").equalTo(lessonId);
+        Query query1 = dbRef.child("quiz").orderByChild("lessonId").equalTo(lessonId);
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
-                    tutorialCount = 0;
+                    quizCount = 0;
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        tutorialCount += 1;
+                        quizCount += 1;
                     }
-                    holder.txtMark.setText(String.valueOf(result.getMark()) + "/" + String.valueOf(tutorialCount));
+                    holder.txtMark.setText(String.valueOf(result.getMark()) + "/" + String.valueOf(quizCount));
                 }
             }
 

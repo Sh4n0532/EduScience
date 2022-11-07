@@ -37,6 +37,8 @@ public class QuizActivity extends AppCompatActivity {
 
     public static int quizMark;
 
+    private CountDownTimer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +82,7 @@ public class QuizActivity extends AppCompatActivity {
     private void startTimer() {
         long time = 900000; // 15 minutes
 
-        CountDownTimer timer = new CountDownTimer(time + 1000, 1000) {
+        timer = new CountDownTimer(time + 1000, 1000) {
             @Override
             public void onTick(long timeRemain) { // this function is called every second
                 String timeRemainFormat = String.format("%02d:%02d",
@@ -97,6 +99,14 @@ public class QuizActivity extends AppCompatActivity {
         };
 
         timer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(timer != null) {
+            timer.cancel();
+        }
     }
 
     private void getQuiz() {

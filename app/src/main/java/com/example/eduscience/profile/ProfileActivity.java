@@ -138,6 +138,11 @@ public class ProfileActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if(i == EditorInfo.IME_ACTION_DONE) {
                     String newUsername = editTxtUsername.getText().toString().trim();
+                    if(newUsername.isEmpty()) {
+                        editTxtUsername.setError("Required field!");
+                        editTxtUsername.requestFocus();
+                        return false;
+                    }
 
                     editTxtUsername.clearFocus();
                     editTxtUsernameLayout.setVisibility(View.GONE);
