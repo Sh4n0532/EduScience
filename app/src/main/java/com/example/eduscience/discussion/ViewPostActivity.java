@@ -122,9 +122,11 @@ public class ViewPostActivity extends AppCompatActivity {
                                 if(snapshot.exists()) {
                                     for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                         // delete image
-                                        String imgUrl = dataSnapshot.child("imgUrl").getValue(String.class);
-                                        sRef = FirebaseStorage.getInstance().getReferenceFromUrl(imgUrl);
-                                        sRef.delete();
+                                        if(dataSnapshot.hasChild("imgUrl")) {
+                                            String imgUrl = dataSnapshot.child("imgUrl").getValue(String.class);
+                                            sRef = FirebaseStorage.getInstance().getReferenceFromUrl(imgUrl);
+                                            sRef.delete();
+                                        }
 
                                         // delete row
                                         dataSnapshot.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
