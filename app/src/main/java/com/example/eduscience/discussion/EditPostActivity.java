@@ -221,9 +221,6 @@ public class EditPostActivity extends AppCompatActivity {
                         if(discussion.getImgUrl() != null) {
                             Glide.with(imgPost.getContext()).load(discussion.getImgUrl()).into(imgPost);
                         }
-                        else {
-                            imgPost.setVisibility(View.GONE);
-                        }
                     }
                 }
             }
